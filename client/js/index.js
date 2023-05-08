@@ -1,9 +1,9 @@
 
  class HTMLComponent {
   #params;
-  constructor(params = {tag:"p", innerHTML:"Ebanga est bonnnn", id:"p_id"}) {
+  constructor(params = {tag:"p", innerHTML:"Ebanga est bonnnn", id:"p_id", classList:["cls1", "cls2", "cls3"]}) {
               
-    this.#params = {tag:"p", innerHTML:"Ebanga est bonnn", id:"p_id"};
+    this.#params = {tag:"p", innerHTML:"Ebanga est bon", id:"p_id", classList:["cls1", "cls2", "cls3"]};
     Object.assign(this.#params,params);
     this.$ = document.createElement(this.#params.tag);
     this.#propertiesAssignment();
@@ -12,13 +12,17 @@
   #propertiesAssignment(){
     Object.entries(this.#params).forEach(([key, value]) => {
       if (key in this.$) {
-        this.$[key] = value;
+        if (key === "classList" ) {
+          value.forEach((elt)=>{              
+            this.$[key].add(elt);
+          })
+        }
+        else   this.$[key] = value;
       } 
-
     });
   }
 
-  _update(params = {tag:"p", innerHTML:"Ebanga est bon", id:"p_id"}) {
+  _update(params = {tag:"p", innerHTML:"", id:"p_id", classList:["cls1", "cls2", "cls3"]}) {
        Object.assign(this.#params,params);
        this.#propertiesAssignment();
   }
@@ -35,20 +39,20 @@ class HTMLContainer {
   
   constructor(params = {
                  container:{tag:"div", innerHTML:"", id:"container_id"},
-                 children:[{tag:"p", innerHTML:"paragraph 1", id:"par1_id", class:"classmodel"},
-                           {tag:"p", innerHTML:"paragraph 2", id:"par2_id", class:"classmodel"},   
-                           {tag:"p", innerHTML:"paragraph 3", id:"par3_id", class:"classmodel"},
-                           {tag:"p", innerHTML:"paragraph 4", id:"par4_id", class:"classmodel"},   
+                 children:[new HTMLComponent({tag:"p", innerHTML:"paragraph 1", id:"par1_id", classList:["cls1"]}),
+                           new HTMLComponent({tag:"p", innerHTML:"paragraph 2", id:"par2_id", classList:["cls1"]}),   
+                           new HTMLComponent({tag:"p", innerHTML:"paragraph 3", id:"par3_id", classList:["cls1"]}),
+                           new HTMLComponent({tag:"p", innerHTML:"paragraph 4", id:"par4_id", classList:["cls1"]}),   
                 
                 ]}) {
               
     this.#params = {
       container:{tag:"div", innerHTML:"", id:"container_id"},
-      children:[{tag:"p", innerHTML:"paragraph 1", id:"par1_id", class:"classmodel"},
-                {tag:"p", innerHTML:"paragraph 2", id:"par2_id", class:"classmodel"},   
-                {tag:"p", innerHTML:"paragraph 3", id:"par3_id", class:"classmodel"},
-                {tag:"p", innerHTML:"paragraph 4", id:"par4_id", class:"classmodel"},   
-     
+      children:[new HTMLComponent({tag:"p", innerHTML:"paragraph 1", id:"par1_id", classList:["cls1"]}),
+                new HTMLComponent({tag:"p", innerHTML:"paragraph 2", id:"par2_id", classList:["cls1"]}),   
+                new HTMLComponent({tag:"p", innerHTML:"paragraph 3", id:"par3_id", classList:["cls1"]}),
+                new HTMLComponent({tag:"p", innerHTML:"paragraph 4", id:"par4_id", classList:["cls1"]}),   
+
       ]};
 
     Object.assign(this.#params,params);
@@ -59,30 +63,79 @@ class HTMLContainer {
 
   #buildChildren(){
     this.#params.children.forEach((elt)=>{
-      let tagElt =  new HTMLComponent(elt);
-      this.children.push(tagElt);
-      this.$.appendChild(tagElt.$);
+       this.$.appendChild(elt.$);
     })
   }
 
   _update(params = {
-    container:{tag:"div", innerHTML:"", id:"container_id"},
-    children:[{tag:"p", innerHTML:"paragraph 1", id:"par1_id", class:"classmodel"},
-              {tag:"p", innerHTML:"paragraph 2", id:"par2_id", class:"classmodel"},   
-              {tag:"p", innerHTML:"paragraph 3", id:"par3_id", class:"classmodel"},
-              {tag:"p", innerHTML:"paragraph 4", id:"par4_id", class:"classmodel"},   
-   
-   ]}) {
+    }) {
        Object.assign(this.#params,params);
-       this.#updateChildren();
   }
 
-  #updateChildren(){
-    this.#params.children.forEach((elt)=>{
-      this.children._update(elt)
-    })
+ 
+  outParams() {
+    return Object.assign({},this.#params);
+  }
+  
+}
+
+
+class HTMLNav {
+  #params;
+  
+  constructor(params = {
+                 nav:{tag:"div", innerHTML:"",  classList:["nav_cls"], id:"cls_id"},
+                 list:[ {tag:"li", innerHTML:"",  classList:["li_cls"], id:"li1_id"},
+                        {tag:"li", innerHTML:"",  classList:["li_cls"], id:"li2_id"},
+                        {tag:"li", innerHTML:"",  classList:["li_cls"], id:"li3_id"},
+                        {tag:"li", innerHTML:"",  classList:["li_cls"], id:"li4_id"}],
+                 elements:[ {tag:"button", innerHTML:"Segmentation",  classList:["but_cls"], id:"segbut_id"},
+                 {tag:"button", innerHTML:"Vecmentation",  classList:["but_cls"], id:"vecbut_id"},
+                 {tag:"button", innerHTML:"Indexation",  classList:["but_cls"], id:"indbut_id"},
+                 {tag:"button", innerHTML:"Random",  classList:["but_cls"], id:"ranbut_id"},
+                 {tag:"button", innerHTML:"Matrix",  classList:["but_cls"], id:"mstbut_id"}
+                ]
+
+                }) {
+              
+    this.#params = {
+      nav:{tag:"nav", innerHTML:"",  classList:["nav_cls"], id:"cls_id"},
+      list:[ {tag:"li", innerHTML:"",  classList:["li_cls"], id:"li1_id"},
+             {tag:"li", innerHTML:"",  classList:["li_cls"], id:"li2_id"},
+             {tag:"li", innerHTML:"",  classList:["li_cls"], id:"li3_id"},
+             {tag:"li", innerHTML:"",  classList:["li_cls"], id:"li4_id"}],
+      elements:[ {tag:"button", innerHTML:"Segmentation",  classList:["but_cls"], id:"segbut_id"},
+      {tag:"button", innerHTML:"Vecmentation",  classList:["but_cls"], id:"vecbut_id"},
+      {tag:"button", innerHTML:"Indexation",  classList:["but_cls"], id:"indbut_id"},
+      {tag:"button", innerHTML:"Random",  classList:["but_cls"], id:"ranbut_id"},
+      {tag:"button", innerHTML:"Matrix",  classList:["but_cls"], id:"mstbut_id"}]};
+
+    Object.assign(this.#params,params);
+
+    this.list = [];
+
+    this.#params.list.forEach((elt,index) =>{
+      this.list.push(
+        new HTMLContainer( {container:elt,
+                            children:[new HTMLComponent( this.#params.elements[index])]   
+        }))
+          
+    });
+
+    this.nav = new HTMLContainer( {container: this.#params.nav,
+      children:this.list
+    });
+
+
   }
 
+
+  _update(params = {
+    }) {
+       Object.assign(this.#params,params);
+  }
+
+ 
   outParams() {
     return Object.assign({},this.#params);
   }
@@ -92,84 +145,36 @@ class HTMLContainer {
 
 
 
+
 document.addEventListener("DOMContentLoaded", function() {
 
+ 
 
-  let comp = (new HTMLComponent( {tag:"p", innerHTML:"Ebanga est bonnnn", id:"p_id"}));
-  let comp1 = new HTMLComponent( {tag:"p", innerHTML:"Ebanga est bonnnn1", id:"p_id1"});
-  let comp2 = new HTMLComponent( {tag:"p", innerHTML:"Ebanga est bonnnn2", id:"p_id2"});
-  document.body.appendChild(comp.$);
-  document.body.appendChild(comp1.$);
-  document.body.appendChild(comp2.$);
-  comp2.$.innerHTML="locko"
+  let nav = new HTMLNav({
+    nav:{tag:"div", innerHTML:"",  classList:["nav_cls"], id:"cls_id"},
+    list:[ 
+           {tag:"li", innerHTML:"",  classList:["li_cls"], id:"li1_id"},
+           {tag:"li", innerHTML:"",  classList:["li_cls"], id:"li1_id"},
+           {tag:"li", innerHTML:"",  classList:["li_cls"], id:"li2_id"},
+           {tag:"li", innerHTML:"",  classList:["li_cls"], id:"li3_id"},
+           {tag:"li", innerHTML:"",  classList:["li_cls"], id:"li4_id"}],
+    elements:[ {tag:"button", innerHTML:"Segmentation",  classList:["but_cls"], id:"segbut_id"},
+    
+    
+    {tag:"button", innerHTML:"Vecmentation",  classList:["but_cls"], id:"vecbut_id"},
+    {tag:"button", innerHTML:"Indexation",  classList:["but_cls"], id:"indbut_id"},
+    {tag:"button", innerHTML:"Random",  classList:["but_cls"], id:"ranbut_id"},
+    {tag:"button", innerHTML:"Matrix",  classList:["but_cls"], id:"mstbut_id"}
+   ]
 
-  let container = new HTMLContainer({
-    container:{tag:"nav", innerHTML:"", id:"container_id"},
-    children:[{tag:"li", innerHTML:'<button id="segmentation-btn">Segmentation</button>', id:"par1_id", class:"classmodel"},
-              {tag:"li", innerHTML:"paragraph 2", id:"par2_id", class:"classmodel"},   
-              {tag:"li", innerHTML:"paragraph 3", id:"par3_id", class:"classmodel"},
-              {tag:"li", innerHTML:"paragraph 4", id:"par4_id", class:"classmodel"},   
-   
-   ]});
-  document.body.appendChild(container.$);
+   });
+
+  console.log(nav.list[0].$.children[0])
+
+    nav.list[0].$.children[0].addEventListener('click',()=>{
+       console.log(nav.list[0].$.children[0].innerHTML)
+    })
+
+   document.body.appendChild(nav.nav.$);
 
 });
-
-// Load the header HTML file and insert it into the "header" div element
-// fetch('/client/header.html')
-//   .then(response => response.text())
-//   .then(html => {
-//     document.getElementById('header').innerHTML = html;
-//   });
-
-// // Load the footer HTML file and insert it into the "footer" div element
-// fetch('/client/footer.html')
-//   .then(response => response.text())
-//   .then(html => {
-//     document.getElementById('footer').innerHTML = html;
-//   });
-
-
-//   fetch('/client/js/functiontest.js')
-//   .then(response => response.text())
-//   .then(scriptText => {
-//     const script = document.createElement('script');
-//     script.text = scriptText;
-//     document.head.appendChild(script);
-
-//     const result = multiplyByTwo(5);
-//     console.log(result); // Output: 10
-//   });
-
-
-
-  
- 
-  // const segmentationBtn = document.getElementById('segmentation-btn');
-  // segmentationBtn.addEventListener('click', function() {
- 
-  //   window.location.href = '/client/segmentation.html';
-
-  // });
-
-  // const vecmentationBtn = document.getElementById('vecmentation-btn');
-  // vecmentationBtn.addEventListener('click', function() {
-  //   window.location.href = 'vecmentation.html';
-  // });
-
-  // const matrixBtn = document.getElementById('matrix-btn');
-  // matrixBtn.addEventListener('click', function() {
-  //   window.location.href = 'matrix.html';
-  // });
-
-  // const indexationBtn = document.getElementById('indexation-btn');
-  // indexationBtn.addEventListener('click', function() {
-  //   window.location.href = 'indexation.html';
-  // });
-
-  // const randomBtn = document.getElementById('random-btn');
-  // randomBtn.addEventListener('click', function() {
-  //   window.location.href = 'random.html';
-  // });
- 
-
