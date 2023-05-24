@@ -80,6 +80,17 @@ class HTMLContainer {
 }
 
 
+// String utils
+
+let strConcat = (text = [`el1`,`elt2`,`elt3`]) =>{
+    let result = ``;
+    text.forEach((elt) =>{
+        result += elt; 
+    })
+    return result; 
+}
+
+
 // class HTMLNav {
 //   #params;
   

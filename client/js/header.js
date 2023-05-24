@@ -129,6 +129,7 @@ const headerIniMenu = (headerObj)=>{
 
 const headerEventsIni = (headerObj)=>{
     headerObj.navbuttonhome.$.addEventListener('click',()=>{
+        
         homeIni(home);
     })
 
